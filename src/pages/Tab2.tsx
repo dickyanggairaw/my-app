@@ -1,22 +1,40 @@
-import { IonContent, IonHeader, IonPage, IonTitle, IonToolbar } from '@ionic/react';
-import ExploreContainer from '../components/ExploreContainer';
+import { IonContent, IonHeader, IonPage, IonTitle, IonToolbar, IonList, IonItem, IonLabel, IonInput, IonButton } from '@ionic/react';
 import './Tab2.css';
+import React, {useState} from 'react'
+import { presentToast } from '../toast'
+import { registerUser } from '../firebaseConfig'
 
 const Tab2: React.FC = () => {
+  const [email, setEmail] = useState<string>('');
+  const [password, setPassword] = useState<string>('');
+  async function submitRegister () {
+    if(email?.trim() === '' || password?.trim() === ''){
+      presentToast("email or password is required")
+    }
+    const res = await registerUser(email, password)
+    if(res) {
+      presentToast("register successfully")
+    }
+  }
   return (
     <IonPage>
       <IonHeader>
         <IonToolbar>
-          <IonTitle>Tab 2</IonTitle>
+          <IonTitle>Register</IonTitle>
         </IonToolbar>
       </IonHeader>
-      <IonContent fullscreen>
-        <IonHeader collapse="condense">
-          <IonToolbar>
-            <IonTitle size="large">Tab 2</IonTitle>
-          </IonToolbar>
-        </IonHeader>
-        <ExploreContainer name="Tab 2 page" />
+      <IonContent>
+        <IonList>
+          <IonItem>
+            <IonLabel>Email</IonLabel>
+            <IonInput type="email" value={email} onIonChange={e => setEmail(e.detail.value!)}></IonInput>
+          </IonItem>
+          <IonItem>
+          <IonLabel>Password</IonLabel>
+            <IonInput type="password" value={password} onIonChange={e => setPassword(e.detail.value!)}></IonInput>
+          </IonItem>
+          <IonButton expand="block" onIonFocus={e => submitRegister()}>Full Button</IonButton>
+        </IonList>
       </IonContent>
     </IonPage>
   );
