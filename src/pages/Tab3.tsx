@@ -25,7 +25,6 @@ import {
   Photo,
 } from "@capacitor/camera";
 import { base64FromPath } from '../hooks/usePhotoGallery'
-import { Filesystem, Directory } from '@capacitor/filesystem'
 
 
 const Tab3: React.FC = () => {
@@ -54,21 +53,21 @@ const Tab3: React.FC = () => {
       quality: 100
     })
       .then((data:any) =>{
-        const fileName = new Date().getTime() + '.png';
-        return base64FromPath(data)
+        // console.log(data)
+        const fileName = new Date().getTime() + '.jpeg';
+        // console.log(data.webPath)
+        return base64FromPath(data.webPath!)
       .then((data: any) =>{
         console.log(data)
-        storage.ref(`/${fileName}`).putString(data, 'base64url').then(function(snapshot) {
-          console.log('Uploaded a base64url string!');
-        })
-        // uploadTask.on(
-        //   "state_changed",
-        // snapshot => {},
-        // error => {
-        //   console.log(error)
-        // },
-        //   () => storage.ref("/").child(fileName).getDownloadURL().then((url:any) => setPicture(url))
-        // )
+        const uploadTask = storage.ref(`/${fileName}`).putString(data)
+        uploadTask.on(
+          "state_changed",
+        snapshot => {},
+        error => {
+          console.log(error)
+        },
+          () => storage.ref("/").child(fileName).getDownloadURL().then((url:any) => setPicture(url))
+        )
       })    
     })
   }

@@ -1,17 +1,47 @@
-// import { Filesystem, Directory} from "@capacitor/filesystem"
+// import { useState, useEffect } from "react";
+// import { isPlatform } from "@ionic/react";
 
-// export function usePhotoGallery(){
-//     const savePicture = async (CameraPhoto: any, fileName: string): Promise<Photo> => {
-//         const base64Data = await base64FromPath(photo.webPath!);
-//         const savedFile = await FileSystem.writeFile({
-//           path: fileName,
-//           data: base64Data,
-//           directory: Directory.Data
-//         });
-//         return {
-//             filepath: fileName,
-//             webviewPath: photo.webPath
-//           };
+// import {
+//   Camera,
+//   CameraResultType,
+//   CameraSource,
+//   Photo,
+// } from "@capacitor/camera";
+// import { Filesystem, Directory } from "@capacitor/filesystem";
+// import { Storage } from "@capacitor/storage";
+// import { Capacitor } from "@capacitor/core";
+
+// export function usePhotoGallery() {
+//   const takePhoto = async () => {
+//     const cameraPhoto = await Camera.getPhoto({
+//       resultType: CameraResultType.Uri,
+//       source: CameraSource.Camera,
+//       quality: 100,
+//     });
+
+//     const fileName = new Date().getTime() + '.jpeg';
+//     const savedFileImage = await savePicture(cameraPhoto, fileName);
+//     const newPhotos = [savedFileImage, ...photos];
+//   };
+
+//   const savePicture = async (photo: CameraPhoto, fileName: string): Promise<Photo> => {
+//     const base64Data = await base64FromPath(photo.webPath!);
+//     const savedFile = await FileSystem.writeFile({
+//       path: fileName,
+//       data: base64Data,
+//       directory: Directory.Data
+//     });
+  
+//     // Use webPath to display the new image instead of base64 since it's
+//     // already loaded into memory
+//     return {
+//       filepath: fileName,
+//       webviewPath: photo.webPath
+//     };
+//   };
+//   return {    
+//     takePhoto,
+//   };
 // }
 
 export async function base64FromPath(path: string): Promise<string> {

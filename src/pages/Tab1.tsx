@@ -10,11 +10,12 @@ const Tab1: React.FC = () => {
   const [email, setEmail] = useState<string>('');
   const [password, setPassword] = useState<string>('');
   const [bussy, setBussy] = useState<boolean>(false)
+
   async function submitLogin () {
     setBussy(true)
     const res = await loginUser(email, password)
     if(res) {
-      setLogin(res.user)
+      setLogin(true)
       history.push('/tab3')
     }
     setBussy(false)
