@@ -1,8 +1,31 @@
-import { IonContent, IonHeader, IonPage, IonTitle, IonToolbar, IonButton, IonList, IonLabel, IonInput, IonItem, IonImg } from '@ionic/react';
+import { 
+  IonContent, 
+  IonHeader, 
+  IonPage, 
+  IonTitle, 
+  IonToolbar, 
+  IonButton, 
+  IonList, 
+  IonLabel, 
+  IonInput, 
+  IonItem, 
+  IonImg,
+  IonFab,
+  IonFabButton, 
+  IonIcon, } from '@ionic/react';
 import './Tab3.css';
 import React, {useEffect, useState} from 'react'
-import { getUser, updateUser } from '../firebaseConfig'
+import { getUser, updateUser, storage, signOut } from '../firebaseConfig'
 import {useHistory} from 'react-router-dom'
+import { camera, trash, close } from 'ionicons/icons';
+import {
+  Camera,
+  CameraResultType,
+  CameraSource,
+  Photo,
+} from "@capacitor/camera";
+import { base64FromPath } from '../hooks/usePhotoGallery'
+import { Filesystem, Directory } from '@capacitor/filesystem'
 
 
 const Tab3: React.FC = () => {
@@ -15,7 +38,7 @@ const Tab3: React.FC = () => {
     getUser()
       .then((user: any) => {
         if(user) {
-          console.log("ini user: ", user.email)
+          console.log("ini user: ", user)
           setEmail(user.email)
           setName(user.displayName)
           setPicture(user.photoUrl)
@@ -24,10 +47,40 @@ const Tab3: React.FC = () => {
         }
       }) 
   },[])
-  function buttonHandle( ){
-    console.log("bisa 1")
-    updateUser()
+  function takePhoto(){
+    Camera.getPhoto({
+      resultType: CameraResultType.Uri,
+      source: CameraSource.Camera,
+      quality: 100
+    })
+      .then((data:any) =>{
+        const fileName = new Date().getTime() + '.png';
+        return base64FromPath(data)
+      .then((data: any) =>{
+        console.log(data)
+        storage.ref(`/${fileName}`).putString(data, 'base64url').then(function(snapshot) {
+          console.log('Uploaded a base64url string!');
+        })
+        // uploadTask.on(
+        //   "state_changed",
+        // snapshot => {},
+        // error => {
+        //   console.log(error)
+        // },
+        //   () => storage.ref("/").child(fileName).getDownloadURL().then((url:any) => setPicture(url))
+        // )
+      })    
+    })
   }
+  function buttonHandle( ){
+    console.log(picture)
+    updateUser(name, picture)
+  }
+  function signOutButton(){
+    signOut()
+    history.push('/')
+  }
+  console.log(picture)
   return (
     <IonPage>
       <IonHeader>
@@ -39,11 +92,21 @@ const Tab3: React.FC = () => {
         <IonImg src="https://th.bing.com/th/id/OIP.e3E1cAv_ChVq9jJqrV72YwHaEK?w=288&h=180&c=7&o=5&dpr=1.25&pid=1.7" />
       <IonList>
           <IonItem>
-            <IonLabel>Email</IonLabel>
-            <IonInput type="email" defaultValue={email} onIonChange={e => setEmail(e.detail.value!)}></IonInput>
+            <IonLabel>Name</IonLabel>
+            <IonInput type="text" value={name} onIonChange={e => setName(e.detail.value!)}></IonInput>
           </IonItem>
+          {/* <IonItem>
+            <IonLabel>Photo</IonLabel>
+            <IonInput type="file" value={name} onIonChange={e => setImage(e.detail.value!)}></IonInput>
+          </IonItem> */}
           <IonButton onClick={() => buttonHandle()}>submit</IonButton>
         </IonList>
+        <IonButton onClick={() => signOutButton()}>sign out</IonButton>
+        <IonFab vertical="bottom" horizontal="center" slot="fixed">
+          <IonFabButton onClick={() => takePhoto()}>
+            <IonIcon icon={camera}></IonIcon>
+          </IonFabButton>
+        </IonFab>
       </IonContent>
     </IonPage>
   );

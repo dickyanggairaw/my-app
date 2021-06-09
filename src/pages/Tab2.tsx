@@ -3,8 +3,10 @@ import './Tab2.css';
 import React, {useState} from 'react'
 import { presentToast } from '../toast'
 import { registerUser } from '../firebaseConfig'
+import { useHistory } from 'react-router-dom'
 
 const Tab2: React.FC = () => {
+  const history = useHistory()
   const [email, setEmail] = useState<string>('');
   const [password, setPassword] = useState<string>('');
   async function submitRegister () {
@@ -15,6 +17,10 @@ const Tab2: React.FC = () => {
     if(res) {
       presentToast("register successfully")
     }
+  }
+  function login(e: any){
+    e.preventDefault()
+    history.push('/login')
   }
   return (
     <IonPage>
@@ -35,6 +41,8 @@ const Tab2: React.FC = () => {
           </IonItem>
           <IonButton expand="block" onIonFocus={e => submitRegister()}>Full Button</IonButton>
         </IonList>
+        <p>have account ?</p>
+        <a href="#" onClick={e => login(e)}>login</a>
       </IonContent>
     </IonPage>
   );

@@ -19,6 +19,10 @@ const Tab1: React.FC = () => {
     }
     setBussy(false)
   }
+  function register (e:any){
+    e.preventDefault()
+    history.push('/register')
+  }
   return (
     <IonPage>
       <IonHeader>
@@ -39,6 +43,8 @@ const Tab1: React.FC = () => {
           </IonItem>
           <IonButton size="small" slot="icon-only" onClick={e => submitLogin()}>Full Button</IonButton>
         </IonList>
+        <p>Dont have account ?</p>
+        <a href="#" onClick={e => register(e)}>register</a>
       </IonContent>
     </IonPage>
   );

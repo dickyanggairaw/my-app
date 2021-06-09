@@ -38,8 +38,7 @@ export function getUser(){
   return new Promise((resolve, rejects) => {
     const unsubscribe =  firebase.auth().onAuthStateChanged(function(user) {
       if(user){
-        const {email, displayName, photoURL} = user
-        resolve({email, displayName, photoURL})
+        resolve(user)
       }else{
         resolve(null)
       }
@@ -48,14 +47,14 @@ export function getUser(){
   })
 }
 
-export function updateUser(){
-  console.log("bisa")
+export function updateUser(name: string, picture: string){
+  console.log(name, picture)
   return new Promise((resolve, rejects) => {
     const unsubscribe =  firebase.auth().onAuthStateChanged(function(user) {
       if(user){
         user.updateProfile({
-          displayName: "Jane Q. User",
-          photoURL: "https://example.com/jane-q-user/profile.jpg"
+          displayName: name,
+          photoURL: picture
         }).then(function(user) {
           // Update successful.
           console.log(user)
@@ -71,3 +70,15 @@ export function updateUser(){
     })
   })
 }
+
+export function signOut(){
+  firebase.auth().signOut().then(function() {
+    console.log('Signed Out');
+  }, function(error) {
+    console.error('Sign Out Error', error);
+  });
+}
+
+const storage = firebase.storage()
+
+export { storage }
