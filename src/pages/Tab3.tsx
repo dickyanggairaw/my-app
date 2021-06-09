@@ -25,13 +25,14 @@ import {
   Photo,
 } from "@capacitor/camera";
 import { base64FromPath } from '../hooks/usePhotoGallery'
+import {presentToast} from '../toast'
 
 
 const Tab3: React.FC = () => {
   const history = useHistory()
   const [email, setEmail] = useState<string>('')
   const [name, setName] = useState<string>('')
-  const [picture, setPicture] = useState<string>('')
+  const [picture, setPicture] = useState<any>()
 
   useEffect(() => {
     getUser()
@@ -41,8 +42,6 @@ const Tab3: React.FC = () => {
           setEmail(user.email)
           setName(user.displayName)
           setPicture(user.photoUrl)
-        }else{
-          history.push('/login')
         }
       }) 
   },[])
@@ -58,8 +57,8 @@ const Tab3: React.FC = () => {
         // console.log(data.webPath)
         return base64FromPath(data.webPath!)
       .then((data: any) =>{
-        console.log(data)
-        const uploadTask = storage.ref(`/${fileName}`).putString(data)
+        const temp = data.split(',')
+        const uploadTask = storage.ref(`/${fileName}`).putString(data, 'data_url')
         uploadTask.on(
           "state_changed",
         snapshot => {},
@@ -74,6 +73,7 @@ const Tab3: React.FC = () => {
   function buttonHandle( ){
     console.log(picture)
     updateUser(name, picture)
+      .then(() => presentToast("sukses Update"))
   }
   function signOutButton(){
     signOut()

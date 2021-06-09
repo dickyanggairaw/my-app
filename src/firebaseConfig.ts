@@ -55,10 +55,9 @@ export function updateUser(name: string, picture: string){
         user.updateProfile({
           displayName: name,
           photoURL: picture
-        }).then(function(user) {
-          // Update successful.
-          console.log(user)
-          resolve(user)
+        }).then((data) => {
+          console.log("ini user", data)
+          resolve(data)
         }).catch(function(error) {
           // An error happened.
           console.log(error)

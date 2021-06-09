@@ -42,7 +42,7 @@ const Tab1: React.FC = () => {
           <IonLabel>Password</IonLabel>
             <IonInput type="password" value={password} onIonChange={e => setPassword(e.detail.value!)}></IonInput>
           </IonItem>
-          <IonButton size="small" slot="icon-only" onClick={e => submitLogin()}>Full Button</IonButton>
+          <IonButton size="small" slot="icon-only" onClick={e => submitLogin()}>Submit</IonButton>
         </IonList>
         <p>Dont have account ?</p>
         <a href="#" onClick={e => register(e)}>register</a>
