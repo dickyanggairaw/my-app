@@ -4,8 +4,10 @@ import './Tab1.css';
 import { loginUser } from '../firebaseConfig'
 import { setLogin } from '../store/action'
 import { useHistory } from 'react-router-dom'
+import { useDispatch } from 'react-redux'
 
 const Tab1: React.FC = () => {
+  const dispatch = useDispatch()
   const history = useHistory()
   const [email, setEmail] = useState<string>('');
   const [password, setPassword] = useState<string>('');
@@ -15,7 +17,7 @@ const Tab1: React.FC = () => {
     setBussy(true)
     const res = await loginUser(email, password)
     if(res) {
-      setLogin(true)
+      dispatch(setLogin(true))
       history.push('/tab3')
     }
     setBussy(false)

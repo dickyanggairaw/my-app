@@ -59,7 +59,7 @@ const Tab3: React.FC = () => {
         return base64FromPath(data.webPath!)
       .then((data: any) =>{
         console.log(data)
-        const uploadTask = storage.ref(`/${fileName}`).putString(data)
+        const uploadTask = storage.ref(`/${fileName}`).putString(data, 'data_url')
         uploadTask.on(
           "state_changed",
         snapshot => {},
