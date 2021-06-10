@@ -1,5 +1,5 @@
 import { IonContent, IonHeader, IonPage, IonTitle, IonToolbar, IonList, IonItem, IonInput, IonLabel, IonButton, IonLoading } from '@ionic/react';
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import './Tab1.css';
 import { loginUser } from '../firebaseConfig'
 import { setLogin } from '../store/action'
@@ -13,11 +13,18 @@ const Tab1: React.FC = () => {
   const [password, setPassword] = useState<string>('');
   const [bussy, setBussy] = useState<boolean>(false)
 
+  useEffect(() => {
+    if(localStorage.login){
+      history.push('/tab3')
+    }
+  }, [localStorage])
+ 
   async function submitLogin (e: any) {
     e.preventDefault()
     setBussy(true)
     const res = await loginUser(email, password)
     if(res) {
+      localStorage.setItem('login', "true")
       dispatch(setLogin(true))
       history.push('/tab3')
     }

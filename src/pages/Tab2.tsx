@@ -1,6 +1,6 @@
 import { IonContent, IonHeader, IonPage, IonTitle, IonToolbar, IonList, IonItem, IonLabel, IonInput, IonButton } from '@ionic/react';
 import './Tab2.css';
-import React, {useState} from 'react'
+import React, {useState, useEffect} from 'react'
 import { presentToast } from '../toast'
 import { registerUser } from '../firebaseConfig'
 import { useHistory } from 'react-router-dom'
@@ -9,6 +9,13 @@ const Tab2: React.FC = () => {
   const history = useHistory()
   const [email, setEmail] = useState<string>('');
   const [password, setPassword] = useState<string>('');
+
+  useEffect(() => {
+    if(localStorage.login){
+      history.push('/tab3')
+    }
+  }, [])
+
   async function submitRegister () {
     if(email?.trim() === '' || password?.trim() === ''){
       presentToast("email or password is required")

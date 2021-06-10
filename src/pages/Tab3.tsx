@@ -75,6 +75,7 @@ const Tab3: React.FC = () => {
       .then(() => presentToast("sukses Update"))
   }
   function signOutButton(){
+    localStorage.removeItem('login')
     signOut()
     history.push('/login')
   }
