@@ -39,7 +39,7 @@ const Tab2: React.FC = () => {
           <IonLabel>Password</IonLabel>
             <IonInput type="password" value={password} onIonChange={e => setPassword(e.detail.value!)}></IonInput>
           </IonItem>
-          <IonButton expand="block" onIonFocus={e => submitRegister()}>Full Button</IonButton>
+          <IonButton size="small" slot="icon-only" onIonFocus={e => submitRegister()}>Submit</IonButton>
         </IonList>
         <p>have account ?</p>
         <a href="#" onClick={e => login(e)}>login</a>

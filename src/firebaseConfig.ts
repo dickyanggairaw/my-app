@@ -1,4 +1,3 @@
-import { rejects } from 'assert'
 import firebase from 'firebase'
 import {presentToast} from './toast'
 
@@ -52,13 +51,13 @@ export function updateUser(name: string, picture: string){
   return new Promise((resolve, rejects) => {
     const unsubscribe =  firebase.auth().onAuthStateChanged(function(user) {
       if(user){
+        console.log(user)
         user.updateProfile({
           displayName: name,
           photoURL: picture
-        }).then(function(user) {
-          // Update successful.
-          console.log(user)
-          resolve(user)
+        }).then((data:any) => {
+          console.log("any")
+          resolve(data)
         }).catch(function(error) {
           // An error happened.
           console.log(error)

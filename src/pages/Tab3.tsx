@@ -25,24 +25,22 @@ import {
   Photo,
 } from "@capacitor/camera";
 import { base64FromPath } from '../hooks/usePhotoGallery'
+import {presentToast} from '../toast'
 
 
 const Tab3: React.FC = () => {
   const history = useHistory()
   const [email, setEmail] = useState<string>('')
   const [name, setName] = useState<string>('')
-  const [picture, setPicture] = useState<string>('')
+  const [picture, setPicture] = useState<any>()
 
   useEffect(() => {
     getUser()
       .then((user: any) => {
         if(user) {
-          console.log("ini user: ", user)
           setEmail(user.email)
           setName(user.displayName)
-          setPicture(user.photoUrl)
-        }else{
-          history.push('/login')
+          setPicture(user.photoURL)
         }
       }) 
   },[])
@@ -58,7 +56,7 @@ const Tab3: React.FC = () => {
         // console.log(data.webPath)
         return base64FromPath(data.webPath!)
       .then((data: any) =>{
-        console.log(data)
+        const temp = data.split(',')
         const uploadTask = storage.ref(`/${fileName}`).putString(data, 'data_url')
         uploadTask.on(
           "state_changed",
@@ -74,12 +72,12 @@ const Tab3: React.FC = () => {
   function buttonHandle( ){
     console.log(picture)
     updateUser(name, picture)
+      .then(() => presentToast("sukses Update"))
   }
   function signOutButton(){
     signOut()
-    history.push('/')
+    history.push('/login')
   }
-  console.log(picture)
   return (
     <IonPage>
       <IonHeader>
@@ -88,7 +86,7 @@ const Tab3: React.FC = () => {
         </IonToolbar>
       </IonHeader>
       <IonContent fullscreen>
-        <IonImg src="https://th.bing.com/th/id/OIP.e3E1cAv_ChVq9jJqrV72YwHaEK?w=288&h=180&c=7&o=5&dpr=1.25&pid=1.7" />
+        <IonImg src={picture} />
       <IonList>
           <IonItem>
             <IonLabel>Name</IonLabel>

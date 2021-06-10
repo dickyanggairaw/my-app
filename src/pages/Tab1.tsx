@@ -13,7 +13,8 @@ const Tab1: React.FC = () => {
   const [password, setPassword] = useState<string>('');
   const [bussy, setBussy] = useState<boolean>(false)
 
-  async function submitLogin () {
+  async function submitLogin (e: any) {
+    e.preventDefault()
     setBussy(true)
     const res = await loginUser(email, password)
     if(res) {
@@ -44,7 +45,7 @@ const Tab1: React.FC = () => {
           <IonLabel>Password</IonLabel>
             <IonInput type="password" value={password} onIonChange={e => setPassword(e.detail.value!)}></IonInput>
           </IonItem>
-          <IonButton size="small" slot="icon-only" onClick={e => submitLogin()}>Full Button</IonButton>
+          <IonButton size="small" slot="icon-only" onClick={e => submitLogin(e)}>Submit</IonButton>
         </IonList>
         <p>Dont have account ?</p>
         <a href="#" onClick={e => register(e)}>register</a>

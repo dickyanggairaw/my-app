@@ -13,6 +13,7 @@ import { ellipse, square, triangle } from 'ionicons/icons';
 import Tab1 from './pages/Tab1';
 import Tab2 from './pages/Tab2';
 import Tab3 from './pages/Tab3';
+import Splash from './pages/Splash';
 
 /* Core CSS required for Ionic components to work properly */
 import '@ionic/react/css/core.css';
@@ -36,22 +37,25 @@ import './theme/variables.css';
 const App: React.FC = () => (
   <IonApp>
     <IonReactRouter>
-      <IonTabs>
-        <IonRouterOutlet>
-          <Route exact path="/login">
-            <Tab1 />
-          </Route>
+      {/* <IonTabs> */}
+        {/* <IonRouterOutlet> */}
           <Route exact path="/register">
             <Tab2 />
           </Route>
-          <Route path="/tab3">
+          <Route exact path="/splash">
+            <Splash />
+          </Route>
+          <Route exact path="/tab3">
             <Tab3 />
           </Route>
-          <Route exact path="/">
-            <Redirect to="/login" />
+          <Route exact path="/login">
+            <Tab1 />
           </Route>
-        </IonRouterOutlet>
-        <IonTabBar slot="bottom">
+          <Route exact path="/">
+            <Redirect to="/splash"/>
+          </Route>
+        {/* </IonRouterOutlet> */}
+        {/* <IonTabBar slot="bottom">
           <IonTabButton tab="tab1" href="/login">
             <IonIcon icon={triangle} />
             <IonLabel>Login</IonLabel>
@@ -60,8 +64,8 @@ const App: React.FC = () => (
             <IonIcon icon={ellipse} />
             <IonLabel>Register</IonLabel>
           </IonTabButton>
-        </IonTabBar>
-      </IonTabs>
+        </IonTabBar> */}
+      {/* </IonTabs> */}
     </IonReactRouter>
   </IonApp>
 );
