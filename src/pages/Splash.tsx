@@ -8,13 +8,9 @@ const Splash: React.FC = () => {
   const history = useHistory()
   const { login } = useSelector((state: any) => state)
   useEffect(() => {
-    if(login){
-      history.push('/tab3')
-    }else{
-      setInterval(function toLogin () {
-        history.push('/login')
-      }, 5000)
-    }
+    setInterval(function toLogin () {
+      history.push('/login')
+    }, 5000)
   },[])
 
 

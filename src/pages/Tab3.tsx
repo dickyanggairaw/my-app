@@ -77,7 +77,7 @@ const Tab3: React.FC = () => {
   }
   function signOutButton(){
     signOut()
-    history.push('/')
+    history.push('/login')
   }
   console.log(picture)
   return (
